@@ -23,10 +23,12 @@ namespace GameOfLife
 
             _board = board;
 
-            _board.Draw();
-            Thread.Sleep(400);
-
             return _board;
+        }
+
+        public void Draw()
+        {
+            _board.Draw();
         }
 
         private void ProcessCell(Board board, int col, int row)

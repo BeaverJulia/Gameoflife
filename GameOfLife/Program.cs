@@ -1,4 +1,6 @@
-﻿namespace GameOfLife
+﻿using System.Threading;
+
+namespace GameOfLife
 {
     class Program
     {
@@ -15,6 +17,9 @@
             while(true)
             {
                 game.Update();
+                game.Draw();
+
+                Thread.Sleep(400);
             }
         }
     }
