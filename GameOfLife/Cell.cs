@@ -21,11 +21,15 @@ namespace GameOfLife
         {
             if(State == CellState.Dead)
             {
-                Console.Write("#");
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.Write(" ");
+                Console.BackgroundColor = ConsoleColor.Black;
             }
             else
             {
-                Console.Write("*");
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.Write(" ");
+                Console.BackgroundColor = ConsoleColor.Black;
             }
         }
     }

@@ -13,19 +13,73 @@ namespace GameOfLife
         {
             _board = new Board(width, height);
 
-            _board.InitLife(10);
+            _board.InitLife((int)(width * height * 0.4));
         }
 
 
         public void Update()
         {
-            //todo 
+            for (int col = 0; col < _board.Width; col++)
+            {
+                for (int row = 0; row < _board.Height; row++)
+                {
+                    ProcessCell(col, row);
+                }
+            }
+
             _board.Draw();
-            Thread.Sleep(400);
+            Thread.Sleep(2000);
 
         }
-        
-        public void 
 
+        private void ProcessCell(int col, int row)
+        {
+            var lifeSiblings = CountLifeSiblings(col, row);
+
+            var state = _board.GetCellState(col, row);
+
+            if (state == CellState.Life)
+            {
+                if(lifeSiblings <= 1 || lifeSiblings > 3)
+                {
+                    _board.SetCellState(col, row, CellState.Dead);
+                    return;
+                }
+            }
+            if (state == CellState.Dead)
+            {
+                if (lifeSiblings > 3)
+                {
+                    _board.SetCellState(col, row, CellState.Life);
+                    return;
+                }
+            }
+        }
+
+        private int CountLifeSiblings(int col, int row)
+        {
+            var lifeSiblings = 0;
+
+            for (var xAxis = -1; xAxis <= 1; xAxis++)
+            {
+                for (var yAxis = -1; yAxis <= 1; yAxis++)
+                {
+                    if (xAxis == 0 && yAxis == 0) continue;
+
+                    if (!_board.IsValidCell(col, row)) continue;
+
+                    if (!_board.IsValidCell(col + xAxis, row + yAxis)) continue;
+
+                    var siblingState = _board.GetCellState(col + xAxis, row + yAxis);
+
+                    if (siblingState == CellState.Life)
+                    {
+                        lifeSiblings++;
+                    }
+                }
+            }
+
+            return lifeSiblings;
+        }
     }
 }

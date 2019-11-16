@@ -20,7 +20,6 @@ namespace GameOfLife
             {
                 _cells[col, row] = new Cell(col, row, CellState.Dead);
             });
-
         }
 
         public int Width { get; }
@@ -38,6 +37,10 @@ namespace GameOfLife
         public void SetCellState(int col, int row, CellState state)
         {
             _cells[col, row].State = state;
+        }
+        public CellState GetCellState(int col, int row)
+        {
+            return _cells[col, row].State;
         }
 
         public void InitLife(int lifeCellsCount)
@@ -72,6 +75,17 @@ namespace GameOfLife
                     action(col, row);
                 }
             }
+        }
+
+        public bool IsValidCell(int col, int row)
+        {
+            if (col < 0 || row < 0)
+                return false;
+
+            if (col > Width - 1 || row > Height - 1)
+                return false;
+
+            return true;
         }
     }
 }
