@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 
 namespace GameOfLife
 {
@@ -19,16 +16,13 @@ namespace GameOfLife
 
         public void Update()
         {
-            for (int col = 0; col < _board.Width; col++)
+            _board.IterateThroughCells((int col, int row) =>
             {
-                for (int row = 0; row < _board.Height; row++)
-                {
-                    ProcessCell(col, row);
-                }
-            }
+                ProcessCell(col, row);
+            });
 
             _board.Draw();
-            Thread.Sleep(2000);
+            Thread.Sleep(400);
 
         }
 
@@ -48,7 +42,7 @@ namespace GameOfLife
             }
             if (state == CellState.Dead)
             {
-                if (lifeSiblings > 3)
+                if (lifeSiblings == 3)
                 {
                     _board.SetCellState(col, row, CellState.Life);
                     return;

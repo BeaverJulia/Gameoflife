@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameOfLife
 {
@@ -38,6 +36,7 @@ namespace GameOfLife
         {
             _cells[col, row].State = state;
         }
+
         public CellState GetCellState(int col, int row)
         {
             return _cells[col, row].State;
@@ -65,9 +64,8 @@ namespace GameOfLife
             }
         }
 
-        private void IterateThroughCells(Action<int, int> action)
+        public void IterateThroughCells(Action<int, int> action)
         {
-
             for (int col = 0; col < Width; col++)
             {
                 for (int row = 0; row < Height; row++)
