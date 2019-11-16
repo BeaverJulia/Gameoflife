@@ -6,15 +6,24 @@ namespace GameOfLife.Tests
     [TestFixture]
     public class Tests
     {
-        [Test]
-        [TestCase(1,1, CellState.Life)]
-        public void Should_CellGetAlive_When_HaveThreeSiblingsAlive(int col, int row, CellState state)
+        private Board _board;
+
+        [SetUp]
+        public void Setup()
         {
-            var board = new Board(3, 3);
+            var board = new Board(10, 10);
             board.SetCellState(0, 0, CellState.Life);
             board.SetCellState(1, 0, CellState.Life);
             board.SetCellState(0, 1, CellState.Life);
-            var game = new Game(board);
+
+            _board = board;
+        }
+
+        [Test]
+        [TestCase(1, 1, CellState.Life)]
+        public void Should_CellGetAlive_When_HaveThreeSiblingsAlive(int col, int row, CellState state)
+        {
+            var game = new Game(_board);
 
             var resultBoard = game.Update();
 
