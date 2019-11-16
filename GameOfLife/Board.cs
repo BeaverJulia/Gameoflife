@@ -42,7 +42,7 @@ namespace GameOfLife
             return _cells[col, row].State;
         }
 
-        public void InitLife(int lifeCellsCount)
+        public void InitRadomLife(int lifeCellsCount)
         {
             while(lifeCellsCount > 0)
             {
@@ -84,6 +84,19 @@ namespace GameOfLife
                 return false;
 
             return true;
+        }
+
+        public Board Clone()
+        {
+            var newBoard = new Board(Width, Height);
+
+            IterateThroughCells((col, row) =>
+            {
+                var state = _cells[col, row].State;
+                newBoard.SetCellState(col, row, state);
+            });
+
+            return newBoard;
         }
     }
 }

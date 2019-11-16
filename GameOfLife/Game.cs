@@ -2,41 +2,44 @@
 
 namespace GameOfLife
 {
-    class Game
+    public class Game
     {
         private Board _board;
 
-        public Game(int width, int height)
+        public Game(Board board)
         {
-            _board = new Board(width, height);
-
-            _board.InitLife((int)(width * height * 0.4));
+            _board = board;
         }
 
 
-        public void Update()
+        public Board Update()
         {
-            _board.IterateThroughCells((int col, int row) =>
+            var board = _board.Clone();
+
+            board.IterateThroughCells((int col, int row) =>
             {
-                ProcessCell(col, row);
+                ProcessCell(board, col, row);
             });
+
+            _board = board;
 
             _board.Draw();
             Thread.Sleep(400);
 
+            return _board;
         }
 
-        private void ProcessCell(int col, int row)
+        private void ProcessCell(Board board, int col, int row)
         {
             var lifeSiblings = CountLifeSiblings(col, row);
 
-            var state = _board.GetCellState(col, row);
+            var state = board.GetCellState(col, row);
 
             if (state == CellState.Life)
             {
                 if(lifeSiblings <= 1 || lifeSiblings > 3)
                 {
-                    _board.SetCellState(col, row, CellState.Dead);
+                    board.SetCellState(col, row, CellState.Dead);
                     return;
                 }
             }
@@ -44,7 +47,7 @@ namespace GameOfLife
             {
                 if (lifeSiblings == 3)
                 {
-                    _board.SetCellState(col, row, CellState.Life);
+                    board.SetCellState(col, row, CellState.Life);
                     return;
                 }
             }
