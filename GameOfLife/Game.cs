@@ -39,7 +39,7 @@ namespace GameOfLife
 
             if (state == CellState.Life)
             {
-                if(lifeSiblings <= 1 || lifeSiblings > 3)
+                if(lifeSiblings < 2 || lifeSiblings > 3)
                 {
                     board.SetCellState(col, row, CellState.Dead);
                     return;
